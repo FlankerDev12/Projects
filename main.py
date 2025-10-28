@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 from huggingface_hub import InferenceClient
 from RAG_engine import retrieve_answer as retrieve_info
 import logging
+import os
+from huggingface_hub import login
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -9,12 +11,15 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-# Initialize HuggingFace client
-client = InferenceClient(
-    model="meta-llama/Llama-3.2-3B-Instruct",  # Using a more reliable model
-    token="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"
-)
+hf_token = os.getenv("HF_TOKEN")
 
+if not hf_token:
+    raise ValueError("HF_TOKEN environment variable not set! Please add it in Render settings.")
+
+client = InferenceClient(
+    model="meta-llama/Llama-3.2-3B-Instruct",
+    token=hf_token
+)
 @app.get("/")
 def read_root():
     return {"message": "Quantum Mechanics Troubleshoot Online", "status": "running"}
@@ -128,4 +133,5 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8000)
