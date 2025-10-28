@@ -3,6 +3,8 @@ services:
     name: qmechanicsai
     env: python
     buildCommand: pip install -r requirements.txt
-    preDeployCommand: python rebuild_vector_store.py
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    autoDeploy: true
+    startCommand: streamlit run sapp.py --server.port=$PORT --server.address=0.0.0.0
+    plan: free
+    envVars:
+      - key: HF_TOKEN
+        value: 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
