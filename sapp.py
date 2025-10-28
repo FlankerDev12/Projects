@@ -1,5 +1,7 @@
 # Copyright 2025 Quantum Mechanics Assistant
 # Enhanced Edition with Better Error Handling
+from app import some_function
+from RAG_engine import generate_answer
 
 from htbuilder.units import rem, px
 from htbuilder import div, styles
@@ -608,4 +610,5 @@ def main():
         render_chat_interface(st.session_state.mode)
 
 if __name__ == "__main__":
+
     main()
